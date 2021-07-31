@@ -30,7 +30,6 @@ export default class HelloWorld extends Vue {
   public isMouseDown = false;
 
   public fields = new Array(20).fill('').map((row:string) => new Array(20).fill(row).map((defaultValue:string) => ({value:defaultValue,selected: false})));
-  /// some test
   public update(rowIndex:number, columnIndex:number, value:string):void{
     if(!value){
       return;
