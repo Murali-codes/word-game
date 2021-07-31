@@ -3,16 +3,16 @@
     <table>
       <tr v-for="(row, rowIndex) of fields" :key="`row-${rowIndex}`" >
         <td v-for="(field, colIndex) of row" :key="`col-${rowIndex}-${colIndex}`">
-          <input 
-            type="text" 
+          <input
+            type="text"
             maxlength="1"
             :class="{highlight: field.selected, dimensions:true}"
-            v-model="field.value" 
+            v-model="field.value"
             :ref="`${rowIndex}-${colIndex}`"
             @keyup="keypressed($event.keyCode, rowIndex, colIndex)"
             @mouseover="isMouseDown ? field.selected = true : ''"
-            :key="`${rowIndex}-${colIndex}`" 
-            :id="`${rowIndex}-${colIndex}`" 
+            :key="`${rowIndex}-${colIndex}`"
+            :id="`${rowIndex}-${colIndex}`"
             @input="update(rowIndex, colIndex, $event.data)"/>
         </td>
       </tr>
@@ -21,33 +21,34 @@
 </template>
 
 <script lang="ts">
-import { Component,  Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { ICell } from './types';
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop({required:true, default:false, type:Boolean}) moveVertically;
+  @Prop({ required: true, default: false, type: Boolean }) moveVertically;
 
   public isMouseDown = false;
 
-  public fields = new Array(20).fill('').map((row:string) => new Array(20).fill(row).map((defaultValue:string) => ({value:defaultValue,selected: false})));
+  public fields = new Array(20).fill('').map((row:string) => new Array(20).fill(row).map((defaultValue:string) => ({ value: defaultValue, selected: false })));
+
   public update(rowIndex:number, columnIndex:number, value:string):void{
-    if(!value){
+    if (!value) {
       return;
     }
-    const index = this.moveVertically ? `${rowIndex+1}-${columnIndex}`:`${rowIndex}-${columnIndex+1}`;
+    const index = this.moveVertically ? `${rowIndex + 1}-${columnIndex}` : `${rowIndex}-${columnIndex + 1}`;
     (this.$refs as {[key:string]:Vue})[index][0].focus();
   }
 
   public keypressed(keyCode:number, rowIndex:number, colIndex:number):void{
-    if(keyCode === 8 && this.fields[rowIndex][colIndex].value === '' && colIndex > 0){
-      const index = this.moveVertically ? `${rowIndex-1}-${colIndex}`:`${rowIndex}-${colIndex-1}`;
+    if (keyCode === 8 && this.fields[rowIndex][colIndex].value === '' && colIndex > 0) {
+      const index = this.moveVertically ? `${rowIndex - 1}-${colIndex}` : `${rowIndex}-${colIndex - 1}`;
       (this.$refs as {[key:string]:Vue})[index][0].focus();
     }
   }
 
   public selectionStarted():void{
-    this.fields.forEach(row => row.forEach(field =>field.selected = false));
-    /// some test again
+    this.fields.forEach((row) => row.forEach((field:ICell) => { field.selected = false; }));
     this.isMouseDown = true;
   }
 }
