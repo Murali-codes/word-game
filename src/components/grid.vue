@@ -48,6 +48,7 @@ export default class HelloWorld extends Vue {
 
   public selectionStarted():void{
     this.fields.forEach(row => row.forEach(field =>field.selected = false));
+    ///some test
     this.isMouseDown = true;
   }
 }
