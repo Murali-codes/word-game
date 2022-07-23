@@ -5,11 +5,19 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "test:unit": "vue-cli-service test:unit ",
+    "test:unit:debug": "vue-cli-service --mode test.unit test:unit --inspect-brk  -r tests/unit/setup.js",
+    "coverage": "nyc npm run test"
   },
   "dependencies": {
+    "axios": "^0.21.3",
+    "babel-plugin-istanbul": "^6.0.0",
+    "chai-spies": "^1.0.0",
     "core-js": "^3.6.5",
+    "istanbul-instrumenter-loader": "^3.0.1",
     "register-service-worker": "^1.7.1",
+    "sass-loader": "^12.1.0",
+    "sinon": "^11.1.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
@@ -17,21 +25,56 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "^4.5.13",
     "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-plugin-unit-mocha": "^4.5.13",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/eslint-config-airbnb": "^5.0.2",
-    "@vue/eslint-config-typescript": "^7.0.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-vue": "^6.2.2",
+    "@vue/test-utils": "^1.0.3",
+    "chai": "^4.1.2",
+    "nyc": "^15.1.0",
     "typescript": "~4.1.5",
     "vue-template-compiler": "^2.6.11"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "vue-jest"
+    },
+    "collectCoverage": true
+  },
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 90,
+    "statements": 90,
+    "functions": 90,
+    "branches": 90,
+    "include": [
+      "apollo-server/**/*.js",
+      "src/**/*.{js,vue}"
+    ],
+    "exclude": [
+      "apollo-server/*.js",
+      "src/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text",
+      "text-summary"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "cache": true,
+    "all": true
   }
 }

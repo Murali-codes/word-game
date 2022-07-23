@@ -10,11 +10,14 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny":false,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "mocha",
+      "chai"
     ],
     "paths": {
       "@/*": [
@@ -38,5 +41,4 @@
   "exclude": [
     "node_modules"
   ]
-
 }
